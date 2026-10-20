@@ -1,171 +1,50 @@
-<div align="center">
+# rentui.kg
 
-<img src="images/logo.png" width="120" alt="Rentui.kg logo">
-
-# 🏠 Rentui.kg
-
-**Доска объявлений для аренды жилья в Кыргызстане**
-
-Готовый веб-сервис для поиска и размещения объявлений об аренде жилья напрямую от арендодателей — без посредников и лишних комиссий.
-
-![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Django](https://img.shields.io/badge/Django-4.x-092E20?style=for-the-badge&logo=django&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-
-<div align="center">
-
-[![Демо](https://img.shields.io/badge/🌐_Открыть_сайт-rentui.it.com-4CAF50?style=for-the-badge)](https://rentui.it.com)
-[![Возможности](https://img.shields.io/badge/🚀_Возможности-перейти-blue?style=for-the-badge)](#-функционал)
-[![Установка](https://img.shields.io/badge/⚙️_Установка-инструкция-orange?style=for-the-badge)](#️-установка-и-запуск-локально)
-[![Помочь](https://img.shields.io/badge/🤝_Помочь_проекту-участвовать-red?style=for-the-badge)](#-как-помочь-проекту)
-
-</div>
-
-</div>
-
----
+Rental listings platform for Kyrgyzstan — tenants find homes directly from landlords, without agents or extra fees.
 
 <p align="center">
-  <img src="images/preview.png" width="800" alt="Превью Rentui.kg">
+  <img src="images/preview.png" width="800" alt="rentui.kg preview">
 </p>
 
----
+**Live:** [rentui.it.com](https://rentui.it.com)
 
-## 💡 О проекте
+## Features
 
-> **Rentui.kg** — это площадка, где арендодатели публикуют объявления, а арендаторы находят жильё быстро и без посредников.
+- Sign up, log in and log out
+- Landlords publish listings with price, address, phone number and a photo gallery
+- Owners can edit and delete their listings
+- Browse all listings and open a detailed property page
+- Photos are stored in DigitalOcean Spaces (S3-compatible storage)
+- Responsive layout for desktop, tablet and phone
 
-Проект ориентирован на рынок Кыргызстана и решает проблему медленного и неудобного поиска жилья через соцсети и мессенджеры.
+## Tech stack
 
-**Проект полностью готов к использованию.** Сейчас мы набираем первых пользователей — арендодателей и арендаторов.
+Python 3.12 · Django · PostgreSQL (any database via `DATABASE_URL`) · django-storages + boto3 (DigitalOcean Spaces) · WhiteNoise · Gunicorn · Vercel
 
----
-
-## 🚀 Функционал
-
-| Возможность | Статус |
-| :--- | :---: |
-| Регистрация пользователей | ✅ |
-| Авторизация | ✅ |
-| Создание объявлений (только для авторизованных) | ✅ |
-| Просмотр объявлений | ✅ |
-| Веб-интерфейс | ✅ |
-| Адаптивная вёрстка (ПК / планшет / смартфон) | ✅ |
-
----
-
-## 🛠 Технологии
-
-<div align="center">
-
-| Backend | Frontend | Инструменты |
-| :---: | :---: | :---: |
-| Python | HTML5 | Git |
-| Django | CSS3 | GitHub |
-| SQLite | Адаптивная вёрстка | — |
-
-</div>
-
----
-
-## 🌐 Демо-версия
-
-🔗 **Ссылка:** [https://rentui.it.com](https://rentui.it.com)
-
-> [!NOTE]
-> Сайт работает в продакшене. Добро пожаловать — регистрируйтесь и размещайте объявления.
-
----
-
-## 👨‍💻 Мой вклад в проект
-
-Как **основатель и основной разработчик**, я реализовал:
-
-- 🎨 Вёрстку **8 HTML-страниц** + полный адаптив под мобильные и планшеты
-- 🔐 Бэкенд-логику авторизации
-- 📝 Регистрацию пользователей
-- 📢 Создание и отображение объявлений
-- 🗄️ Проектирование и подключение моделей данных
-
----
-
-## 🎯 Ближайшие цели
-
-Проект запущен и работает. Сейчас в приоритете:
-
-- [ ] Привлечь первых арендодателей и разместить реальные объявления
-- [ ] Добавить фильтры поиска (цена, район, тип жилья)
-- [ ] Расширить функционал объявлений (фото, карта, избранное)
-- [ ] Усилить безопасность (валидация, защита от спама)
-- [ ] Улучшить мобильную версию
-
----
-
-## ⚙️ Установка и запуск локально
+## Quick start
 
 ```bash
-# 1. Клонировать репозиторий
-git clone https://github.com/a1tvv/rentui.kg.git
-cd rentui.kg
-
-# 2. Создать и активировать виртуальное окружение
-python -m venv venv
-source venv/bin/activate      # Linux / Mac
-venv\Scripts\activate         # Windows
-
-# 3. Установить зависимости
-pip install -r requirements.txt
-
-# 4. Применить миграции
-python manage.py migrate
-
-# 5. Запустить сервер разработки
-python manage.py runserver
+git clone https://github.com/a1tvv/rentui.kg.git && cd rentui.kg
+python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+cp .env.example .env            # fill in the values
+python manage.py migrate && python manage.py runserver
 ```
 
-После запуска открой [http://127.0.0.1:8000](http://127.0.0.1:8000) в браузере.
+Then open http://127.0.0.1:8000.
 
----
+## Configuration
 
-## 🧩 Архитектура проекта
+Settings are read from `.env` (see [`.env.example`](.env.example)):
 
-Проект построен по классической **MVT-архитектуре Django**:
+| Variable | Purpose |
+|---|---|
+| `SECRET_KEY` | Django secret key |
+| `DEBUG` | `True` for local development; leave unset in production |
+| `DATABASE_URL` | Database connection string, e.g. `sqlite:///db.sqlite3` locally or a PostgreSQL URL in production |
+| `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | DigitalOcean Spaces keys for photo storage (required at startup) |
+| `AWS_BUCKET_NAME`, `AWS_ENDPOINT_URL` | Spaces bucket and endpoint used by the upload helper |
+| `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | Gmail SMTP credentials for outgoing email |
 
-```
-rentui.kg/
-├── models.py       # Модели данных
-├── views.py        # Бизнес-логика
-├── urls.py         # Маршрутизация
-├── templates/      # HTML-шаблоны
-├── static/         # Стили и статические файлы
-└── manage.py       # Точка входа
-```
+## License
 
----
-
-## 🤝 Как помочь проекту
-
-Есть несколько способов поддержать **Rentui.kg**:
-
-**1. Стать пользователем** — самое ценное сейчас. Разместите объявление или найдите жильё: [rentui.it.com](https://rentui.it.com)
-
-**2. Рассказать о проекте** — поделитесь ссылкой с теми, кто сдаёт или ищет жильё в Кыргызстане.
-
-**3. Внести вклад в код** — pull request'ы, идеи и баг-репорты приветствуются:
-
-1. Форкни репозиторий
-2. Создай ветку (`git checkout -b feature/AmazingFeature`)
-3. Закоммить изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Запушь (`git push origin feature/AmazingFeature`)
-5. Открой Pull Request
-
----
-
-<div align="center">
-
-Сделано с ❤️ в Кыргызстане
-
-⭐ Если проект тебе полезен — поставь звёздочку!
-
-</div>
+[MIT](LICENSE)
