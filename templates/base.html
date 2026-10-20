@@ -37,7 +37,7 @@
 
             <div class="header-right">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'create' %}" class="btn-main-action">Создать объявление</a>
+                    <a href="{% url 'create-anons' %}" class="btn-main-action">Создать объявление</a>
                 {% else %}
                     <a href="{% url 'sign-up' %}" class="btn-main-action">Авторизоваться</a>
                 {% endif %}
@@ -56,7 +56,7 @@
         </a>
         
         {% if user.is_authenticated %}
-            <a href="{% url 'create' %}" class="tab-item tab-center-btn {% if request.resolver_match.url_name == 'create' %}active{% endif %}">
+            <a href="{% url 'create-anons' %}" class="tab-item tab-center-btn {% if request.resolver_match.url_name == 'create-anons' %}active{% endif %}">
                 <div class="icon-wrapper">
                     <i class="fa-solid fa-plus"></i>
                 </div>

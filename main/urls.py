@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import Search
+from anons.views import property_list
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -8,6 +8,5 @@ urlpatterns = [
     path('services/', views.services, name='services'),
     path('contacts/', views.contacts, name='contacts'),
     path('property_detail/', views.property_detail, name='property_detail'),
-    path('create', views.create, name='create'),
-    path('properties/', views.Search.as_view(), name='properties'),
+    path('properties/', property_list, name='properties'),
 ]

@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib import messages
 from .forms import AnnouncementForm
 from .models import AnnouncementImage, Announcement
@@ -29,6 +31,12 @@ def user_login(request):
             user = form.get_user()
             login(request, user)
             messages.success(request, "Вы успешно вошли в аккаунт!")
+
+            # Если на вход отправил @login_required, возвращаем туда, откуда пришёл.
+            # Проверка нужна, чтобы через ?next= нельзя было увести на чужой сайт
+            next_url = request.GET.get('next')
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+                return redirect(next_url)
             return redirect('properties')
         else:
             messages.error(request, "Неверный логин или пароль")
@@ -44,6 +52,7 @@ def user_logout(request):
 
 
 @login_required
+@require_POST
 def property_delete(request, pk):
     property_item = Announcement.objects.filter(pk=pk).first()
 
@@ -61,11 +70,8 @@ def property_delete(request, pk):
 @login_required
 def create(request):
     if request.method == 'POST':
-        form = AnnouncementForm(request.POST)
+        form = AnnouncementForm(request.POST, request.FILES)
         images = request.FILES.getlist('images')
-
-        print("ВСЕ КЛЮЧИ FILES:", dict(request.FILES))
-        print("ПОЛУЧЕНО ФАЙЛОВ:", len(images))
 
         if form.is_valid():
             announcement = form.save(commit=False)
@@ -96,14 +102,17 @@ def property_edit(request, pk):
         return redirect('home')
 
     if request.method == "POST":
-        form = AnnouncementForm(request.POST, instance=property_item)
+        form = AnnouncementForm(request.POST, request.FILES, instance=property_item)
         images = request.FILES.getlist('images')
 
         if form.is_valid():
             announcement = form.save(commit=False)
 
             if images:
-                announcement.image = images[0]   # заменяем главное фото
+                # старое главное фото больше не нужно — убираем его из хранилища
+                if announcement.image:
+                    announcement.image.delete(save=False)
+                announcement.image = images[0]
 
             announcement.save()
 
@@ -123,52 +132,31 @@ def property_edit(request, pk):
 
 
 def property_list(request):
-    announcements_list = Announcement.objects.select_related('author').all().order_by('-id')
+    # prefetch_related — чтобы фото галереи грузились одним запросом, а не отдельно на каждую карточку
+    announcements = (
+        Announcement.objects
+        .select_related('author')
+        .prefetch_related('images')
+        .order_by('-id')
+    )
 
-    # Поиск
-    search_query = request.GET.get('search')
+    search_query = request.GET.get('search', '')
     if search_query:
-        announcements_list = announcements_list.filter(
-            Q(title__icontains=search_query) |
-            Q(description__icontains=search_query)
+        announcements = announcements.filter(
+            Q(title__icontains=search_query) | Q(description__icontains=search_query)
         )
 
-    # === ПУБЛИЧНЫЙ ПРЕДПРОСМОТР ===
-    # Если пользователь НЕ авторизован — показываем только 5 объявлений
-    # и рендерим шаблон с блюром на остальных.
+    # Гость видит первые 5 объявлений, остальные — размытые заглушки (не больше 8)
     if not request.user.is_authenticated:
-        # Берём первые 5 для реального показа
-        visible = announcements_list[:5]
-        # Общее количество, чтобы знать, есть ли вообще что скрывать
-        total = announcements_list.count()
-        # Сколько "фейковых" карточек дорисовать (для визуала)
-        # Например, 8 — чтобы сетка выглядела заполненной
-        hidden_count = max(0, min(8, total - 5))
-
+        total = announcements.count()
         return render(request, 'anons/property_list_guest.html', {
-            'announcements': visible,
-            'hidden_count': hidden_count,
+            'announcements': announcements[:5],
+            'hidden_count': min(8, max(0, total - 5)),
             'total': total,
-            'search_query': search_query or '',
+            'search_query': search_query,
         })
 
-    # === АВТОРИЗОВАННЫЙ ПОЛЬЗОВАТЕЛЬ — как было, с пагинацией ===
-    paginator = Paginator(announcements_list, 6)  # было 2 — поставь 6, красивее
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    paginator = Paginator(announcements, 20)
+    page_obj = paginator.get_page(request.GET.get('page'))
 
-    return render(request, 'anons/property_list.html', {'page_obj': page_obj})
-    announcements_list = Announcement.objects.select_related('author').all().order_by('-id')
-
-    search_query = request.GET.get('search')
-    if search_query:
-        announcements_list = announcements_list.filter(
-            Q(title__icontains=search_query) |
-            Q(description__icontains=search_query)
-        )
-
-    paginator = Paginator(announcements_list, 2)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    return render(request, 'anons/property_list.html', {'page_obj': page_obj})
+    return render(request, 'main/properties.html', {'page_obj': page_obj})

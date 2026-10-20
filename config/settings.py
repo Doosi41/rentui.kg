@@ -1,13 +1,26 @@
 import os
 import dj_database_url
 from pathlib import Path
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-73y4!-fk_6x$66y2n38ce9k%14n=k#rf7_h*!iq0g+y+wlx3s7'
 
-DEBUG = False
+# Локально секреты берутся из .env, на Vercel — из Environment Variables
+load_dotenv(BASE_DIR / '.env')
 
-ALLOWED_HOSTS = ['rentuikg.vercel.app', '*']
+SECRET_KEY = os.environ['SECRET_KEY']
+
+# Включается только явно: DEBUG=True в .env. На проде переменной нет — значит False
+DEBUG = os.getenv('DEBUG') == 'True'
+
+ALLOWED_HOSTS = ['rentuikg.vercel.app', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://rentuikg.vercel.app']
+
+# Vercel принимает https и передаёт запрос дальше через прокси,
+# по этому заголовку Django понимает, что соединение защищённое
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 INSTALLED_APPS = [
     'main',
@@ -53,17 +66,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
+    # Адрес базы берётся из переменной DATABASE_URL
     'default': dj_database_url.config(
-        default='postgresql://neondb_owner:npg_dy7MiDHcEme2@ep-weathered-dawn-agn0uo4l-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require',
-        conn_max_age=600
+        conn_max_age=0,
+        conn_health_checks=True,
     )
 }
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-
-# !!! СТРОКУ STATICFILES_STORAGE МЫ УДАЛИЛИ ОТСЮДА, ЧТОБЫ НЕ БЫЛО КОНФЛИКТА !!!
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -73,7 +85,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LANGUAGE_CODE = 'ru'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bishkek'
 USE_I18N = True
 USE_TZ = True
 
@@ -87,8 +99,14 @@ LOGIN_URL = 'login'
 WHITENOISE_USE_FINDERS = True
 WHITENOISE_MANIFEST_STRICT = False
 
-AWS_ACCESS_KEY_ID='DO8019V99Y84BA7E6T8B'
-AWS_SECRET_ACCESS_KEY='eOEgWw5jKTDldfArQmZ66wS3NMWafnLpcdFP8F7G69M'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
 AWS_STORAGE_BUCKET_NAME='fideakg'
 AWS_S3_REGION_NAME = 'ams3'
 AWS_S3_ENDPOINT_URL = 'https://ams3.digitaloceanspaces.com'
@@ -96,11 +114,10 @@ AWS_S3_ENDPOINT_URL = 'https://ams3.digitaloceanspaces.com'
 
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_REGION_NAME}.digitaloceanspaces.com'
 
-# УБИРАЕМ ACL из запросов, чтобы DO не ругался
 AWS_DEFAULT_ACL = None                
-AWS_QUERYSTRING_AUTH = False          # Убирает мусорные токены (?AWSAccessKeyId...) из URL
+AWS_QUERYSTRING_AUTH = False
 AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_S3_EXTRA_ARGS = {}                # Тут должно быть пусто!
+AWS_S3_EXTRA_ARGS = {}
 
 # Конфигурация хранилищ
 STORAGES = {
@@ -110,7 +127,6 @@ STORAGES = {
             "bucket_name": AWS_STORAGE_BUCKET_NAME,
             "querystring_auth": False,
             "custom_domain": AWS_S3_CUSTOM_DOMAIN,
-            # Меняем None на 'public-read', чтобы файлы автоматически становились доступными
             "default_acl": "public-read",      
             "file_overwrite": False,
         },
@@ -125,6 +141,19 @@ AWS_S3_OBJECT_PARAMETERS = {
     'ACL': 'public-read',  # Даем Spaces понять, что это публичный файл
 }
 
-# Внутри бакета файлы летят в папочку media
 AWS_LOCATION = 'media'
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+
+# Без этого при DEBUG=False ошибки сервера (500) нигде не видны.
+# Так они пишутся в консоль и попадают в логи Vercel
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {'class': 'logging.StreamHandler'},
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}

@@ -1,11 +1,14 @@
 import os
 import uuid
+import logging
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
-from django.db.models.signals import post_delete
+from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+
+logger = logging.getLogger(__name__)
 
 # Валидатор размера файлов (Максимум 5 МБ)
 def validate_image_size(field_file_obj):
@@ -62,9 +65,6 @@ class AnnouncementImage(models.Model):
         verbose_name_plural = "Фотографии галереи"
 
 
-
-from django.db.models.signals import pre_delete  # Импортируем pre_delete вместо post_delete
-
 # --- СИГНАЛЫ ДЛЯ АВТОУДАЛЕНИЯ ФАЙЛОВ ИЗ DIGITALOCEAN SPACES ---
 
 @receiver(pre_delete, sender=Announcement)
@@ -74,8 +74,8 @@ def delete_main_image_on_announcement_delete(sender, instance, **kwargs):
         try:
             # Сначала удаляем физический файл из облака
             instance.image.delete(save=False)
-        except Exception as e:
-            print(f"Ошибка при удалении главного фото: {e}")
+        except Exception:
+            logger.exception("Не удалось удалить главное фото объявления %s", instance.pk)
 
 @receiver(pre_delete, sender=AnnouncementImage)
 def delete_gallery_image_on_announcement_image_delete(sender, instance, **kwargs):
@@ -83,5 +83,5 @@ def delete_gallery_image_on_announcement_image_delete(sender, instance, **kwargs
     if instance.image:
         try:
             instance.image.delete(save=False)
-        except Exception as e:
-            print(f"Ошибка при удалении фото галереи: {e}")
+        except Exception:
+            logger.exception("Не удалось удалить фото галереи %s", instance.pk)
