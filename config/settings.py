@@ -13,8 +13,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # Включается только явно: DEBUG=True в .env. На проде переменной нет — значит False
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['rentuikg.vercel.app', 'localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://rentuikg.vercel.app']
+ALLOWED_HOSTS = ['rentui.it.com', 'www.rentui.it.com', 'rentui.vercel.app', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://rentui.it.com', 'https://www.rentui.it.com', 'https://rentui.vercel.app']
 
 # Vercel принимает https и передаёт запрос дальше через прокси,
 # по этому заголовку Django понимает, что соединение защищённое
