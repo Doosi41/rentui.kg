@@ -1,68 +1,68 @@
+<!-- Этот файл собирается автоматически: python3 scripts/readme.py. Правки вручную перезапишутся. -->
 <p align="center"><a href="README.md">English</a> &nbsp;|&nbsp; <b>Русский</b></p>
 
-<p align="center">
-  <a href="https://www.rentui.it.com">
-    <img src="images/readme/banner.webp" alt="Rent Ui — аренда жилья в Кыргызстане: напрямую, просто, везде" width="100%">
-  </a>
-</p>
+<a href="https://www.rentui.it.com"><img src="images/readme/ru/banner.svg" alt="Rent Ui — аренда жилья в Кыргызстане. Напрямую. Просто. Везде." width="100%"></a>
 
 <p align="center">
-  <a href="https://www.rentui.it.com"><img src="https://img.shields.io/badge/%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8C_%D1%81%D0%B0%D0%B9%D1%82-rentui.it.com-703BF7?style=for-the-badge&labelColor=141414" alt="Открыть сайт"></a>
-  <img src="https://img.shields.io/badge/Python-3.12-703BF7?style=for-the-badge&logo=python&logoColor=white&labelColor=141414" alt="Python 3.12">
-  <img src="https://img.shields.io/badge/Django-5.0-703BF7?style=for-the-badge&logo=django&logoColor=white&labelColor=141414" alt="Django 5.0">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F-MIT-703BF7?style=for-the-badge&labelColor=141414" alt="Лицензия MIT"></a>
+  <a href="#features">Возможности&nbsp;›</a>&emsp;
+  <a href="#screens">Экраны&nbsp;›</a>&emsp;
+  <a href="#stack">Стек&nbsp;›</a>&emsp;
+  <a href="#run">Запуск&nbsp;›</a>&emsp;
+  <a href="#settings">Настройки&nbsp;›</a>&emsp;
+  <a href="#structure">Структура&nbsp;›</a>
 </p>
+
+<br>
+
+<img src="images/readme/ru/stats.svg" alt="Без комиссии. Тестов: 16. Работает на любом экране." width="100%">
+
+<br>
+<br>
 
 <p align="center">
-  <b>Rent Ui</b> — площадка объявлений об аренде жилья в Кыргызстане.<br>
-  Хозяева публикуют квартиры и дома, арендаторы находят их и звонят владельцу напрямую — без агентов и комиссий.
+  <i>“Simplicity is the ultimate sophistication.”</i><br>
+  <sub>— брошюра Apple II, 1977</sub>
 </p>
 
-<p align="center">
-  <img src="images/readme/highlights.png" alt="Прямой контакт · Весь Кыргызстан · Ежедневные обновления" width="100%">
-</p>
+<br>
 
-## Как выглядит
+<a name="features"></a>
+<img src="images/readme/ru/titles/features.svg" alt="Возможности" width="100%">
 
-<p align="center">
-  <img src="images/readme/showcase.webp" alt="Главная страница Rent Ui на компьютере и на телефоне" width="100%">
-</p>
+<a href="anons/models.py"><img src="images/readme/ru/rows/listings.svg" alt="Объявления — Заголовок, описание, цена в сомах, адрес и телефон" width="100%"></a>
+<a href="anons/forms.py"><img src="images/readme/ru/rows/photos.svg" alt="Фотогалерея — Первое фото — обложка, остальные идут в галерею" width="100%"></a>
+<a href="anons/views.py"><img src="images/readme/ru/rows/accounts.svg" alt="Аккаунты — Регистрация, вход, выход и возврат на ту же страницу" width="100%"></a>
+<a href="anons/views.py"><img src="images/readme/ru/rows/search.svg" alt="Поиск — По заголовку и описанию, 20 объявлений на странице" width="100%"></a>
+<a href="anons/views.py"><img src="images/readme/ru/rows/owner-only.svg" alt="Только владелец — Менять и удалять объявление может только автор или админ" width="100%"></a>
+<a href="anons/models.py"><img src="images/readme/ru/rows/storage.svg" alt="Облачное хранилище — Фото лежат в DigitalOcean Spaces и удаляются вместе с объявлением" width="100%"></a>
 
-<p align="center">
-  <img src="images/readme/pages.webp" alt="Страницы «О нас» и регистрации" width="100%">
-</p>
+<br>
+<br>
 
-## Возможности
+<a name="screens"></a>
+<img src="images/readme/ru/titles/screens.svg" alt="Экраны" width="100%">
 
-- **Аккаунты.** Регистрация, вход, выход. После входа ты возвращаешься на страницу, с которой пришёл.
-- **Объявления.** Заголовок, описание, цена в сомах, адрес, телефон и фото.
-- **Фотогалерея.** Первое фото становится обложкой, остальные идут в галерею. Принимаются только картинки до 5 МБ.
-- **Права владельца.** Редактировать и удалять объявление может только автор или админ.
-- **Поиск.** По заголовку и описанию, с пагинацией.
-- **Аккуратное хранение.** Фото лежат в DigitalOcean Spaces и удаляются вместе с объявлением.
-- **Мобильная вёрстка.** Адаптивные страницы, на телефонах — нижняя панель вкладок.
-- **Админка.** Django-админка, где галерея фото видна прямо внутри объявления.
+<a href="https://www.rentui.it.com"><img src="images/readme/screens.webp" alt="Главная, «О нас» и регистрация на iPhone" width="100%"></a>
 
-## Стек
+<br>
+<br>
 
-<p>
-  <img src="https://img.shields.io/badge/Django-703BF7?style=flat-square&logo=django&logoColor=white" alt="Django">
-  <img src="https://img.shields.io/badge/PostgreSQL-703BF7?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL">
-  <img src="https://img.shields.io/badge/DigitalOcean_Spaces-703BF7?style=flat-square&logo=digitalocean&logoColor=white" alt="DigitalOcean Spaces">
-  <img src="https://img.shields.io/badge/WhiteNoise-703BF7?style=flat-square" alt="WhiteNoise">
-  <img src="https://img.shields.io/badge/Vercel-703BF7?style=flat-square&logo=vercel&logoColor=white" alt="Vercel">
-</p>
+<a name="stack"></a>
+<img src="images/readme/ru/titles/stack.svg" alt="Стек" width="100%">
 
-| Слой | Технология |
-|---|---|
-| Бэкенд | Python 3.12, Django 5.0 |
-| База данных | PostgreSQL на Neon или любая база через `DATABASE_URL` |
-| Фото | DigitalOcean Spaces через django-storages и boto3 |
-| Статика | WhiteNoise |
-| Хостинг | Vercel |
-| Фронтенд | Шаблоны Django, обычный CSS, Font Awesome |
+<img src="images/readme/ru/stack.svg" alt="Сделано на Python, Django, PostgreSQL, SQLite, DigitalOcean и Vercel" width="100%">
 
-## Быстрый старт
+<br>
+<br>
+
+<a name="run"></a>
+<img src="images/readme/ru/titles/run.svg" alt="Запуск" width="100%">
+
+<img src="images/readme/ru/run.svg" alt="Установка, запуск и тесты проекта в терминале" width="100%">
+
+<details>
+<summary>Скопировать команды</summary>
+<br>
 
 ```bash
 git clone https://github.com/a1tvv/rentui.kg.git && cd rentui.kg
@@ -71,61 +71,40 @@ pip install -r requirements.txt
 
 cp .env.example .env
 python -c "from django.core.management.utils import get_random_secret_key as g; print(g())"
-# вставь выведенный ключ в SECRET_KEY в .env
+# вставь ключ в SECRET_KEY в .env
 
 python manage.py migrate
 python manage.py runserver
-```
 
-Потом открой http://127.0.0.1:8000.
-
-## Настройки
-
-Локально настройки берутся из `.env`, в продакшене — из переменных окружения (см. [`.env.example`](.env.example)).
-
-| Переменная | Что это |
-|---|---|
-| `SECRET_KEY` | Секретный ключ Django |
-| `DEBUG` | `True` для локальной разработки. В продакшене не задавай |
-| `DATABASE_URL` | Локально `sqlite:///db.sqlite3`, в продакшене — URL PostgreSQL |
-| `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | Ключи DigitalOcean Spaces для фото. Без них сайт не запустится |
-| `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | Адрес Gmail и пароль приложения для формы обратной связи |
-
-## Тесты
-
-```bash
+# Тесты: локально держи DATABASE_URL на SQLite
 python manage.py test
+
+# Пересобрать этот README
+python3 scripts/readme.py
 ```
 
-Тесты используют базу из `DATABASE_URL`, поэтому локально держи там SQLite. Загруженные файлы хранятся в памяти и не попадают в Spaces.
+</details>
 
-## Деплой
+<br>
 
-Сайт работает на Vercel ([`vercel.json`](vercel.json)). В **Project → Settings → Environment Variables** добавь все переменные из таблицы выше, кроме `DEBUG`. Новый домен нужно также добавить в `ALLOWED_HOSTS` и `CSRF_TRUSTED_ORIGINS` в [`config/settings.py`](config/settings.py).
+<a name="settings"></a>
+<img src="images/readme/ru/titles/settings.svg" alt="Настройки" width="100%">
 
-## Структура проекта
+<img src="images/readme/ru/settings.svg" alt="Переменные окружения: SECRET_KEY, DATABASE_URL, ключи AWS, почта, DEBUG" width="100%">
 
-```
-rentui.kg/
-├── anons/         # объявления, фото, регистрация и вход
-├── main/          # главная, «О нас», услуги и контакты
-├── config/        # настройки и URL
-├── templates/     # шаблоны Django
-├── static/        # CSS и картинки
-└── images/        # картинки для этого README
-```
+<br>
+<br>
 
----
+<a name="structure"></a>
+<img src="images/readme/ru/titles/structure.svg" alt="Структура" width="100%">
+
+<img src="images/readme/ru/structure.svg" alt="Структура репозитория" width="100%">
+
+<br>
+<br>
+
+<img src="images/readme/footer.svg" alt="Stay hungry. Stay foolish. — Steve Jobs, 1955–2011" width="100%">
 
 <p align="center">
-  <img src="images/readme/logo.png" width="72" alt="Логотип Rent Ui"><br><br>
-  Сделано в Кыргызстане командой <b>Fidea</b>
+  <sub>Сделано командой Fidea &nbsp;·&nbsp; <a href="https://github.com/a1tvv">@a1tvv</a> &nbsp;·&nbsp; <a href="LICENSE">Лицензия MIT</a></sub>
 </p>
-
-<p align="center">
-  <a href="https://www.instagram.com/fidea.312/"><img src="https://img.shields.io/badge/Instagram-141414?style=for-the-badge&logo=instagram&logoColor=946CF9" alt="Instagram"></a>
-  <a href="https://t.me/fidea_kg"><img src="https://img.shields.io/badge/Telegram-141414?style=for-the-badge&logo=telegram&logoColor=946CF9" alt="Telegram"></a>
-  <a href="https://wa.me/+996999888615"><img src="https://img.shields.io/badge/WhatsApp-141414?style=for-the-badge&logo=whatsapp&logoColor=946CF9" alt="WhatsApp"></a>
-</p>
-
-<p align="center"><sub>Распространяется по <a href="LICENSE">лицензии MIT</a></sub></p>
