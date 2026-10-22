@@ -1,3 +1,5 @@
+<p align="center"><b>English</b> &nbsp;|&nbsp; <a href="README.ru.md">Русский</a></p>
+
 <p align="center">
   <a href="https://www.rentui.it.com">
     <img src="images/readme/banner.webp" alt="Rent Ui — rentals in Kyrgyzstan: direct, simple, everywhere" width="100%">
@@ -12,8 +14,8 @@
 </p>
 
 <p align="center">
-  <b>Rent Ui</b> is a rental listings platform for Kyrgyzstan.<br>
-  Landlords post apartments and houses, tenants find them and call the owner directly, with no agents and no fees.
+  <b>Rent Ui</b> is a website with rental listings in Kyrgyzstan.<br>
+  Owners post flats and houses. People who need a home find them and call the owner directly — no agents and no fees.
 </p>
 
 <p align="center">
@@ -23,7 +25,7 @@
 ## Preview
 
 <p align="center">
-  <img src="images/readme/showcase.webp" alt="Rent Ui home page on desktop and mobile" width="100%">
+  <img src="images/readme/showcase.webp" alt="Rent Ui home page on a computer and on a phone" width="100%">
 </p>
 
 <p align="center">
@@ -32,14 +34,14 @@
 
 ## Features
 
-- **Accounts.** Sign up, log in, log out. After logging in you get back to the page you came from.
+- **Accounts.** Sign up, log in, log out. After you log in, you go back to the page you came from.
 - **Listings.** Title, description, price in som, address, phone number and photos.
-- **Photo gallery.** The first photo becomes the cover, the rest go to the gallery. Only images up to 5 MB are accepted.
-- **Ownership.** Only the author or an admin can edit or delete a listing.
-- **Search.** By title and description, with pagination.
-- **Tidy storage.** Photos live in DigitalOcean Spaces and are deleted together with the listing.
-- **Mobile layout.** Responsive pages with a bottom tab bar on phones.
-- **Admin panel.** Django admin with the photo gallery inline.
+- **Photo gallery.** The first photo becomes the cover, the other photos go to the gallery. Only images up to 5 MB are allowed.
+- **Owner rights.** Only the author or an admin can edit or delete a listing.
+- **Search.** By title and description, with pages.
+- **Clean storage.** Photos are kept in DigitalOcean Spaces and are deleted together with the listing.
+- **Mobile layout.** Pages fit any screen, and phones get a tab bar at the bottom.
+- **Admin panel.** Django admin where you can see the photo gallery inside the listing.
 
 ## Tech stack
 
@@ -51,10 +53,10 @@
   <img src="https://img.shields.io/badge/Vercel-703BF7?style=flat-square&logo=vercel&logoColor=white" alt="Vercel">
 </p>
 
-| Layer | Technology |
+| Part | Technology |
 |---|---|
 | Backend | Python 3.12, Django 5.0 |
-| Database | PostgreSQL on Neon, or any database via `DATABASE_URL` |
+| Database | PostgreSQL on Neon, or any database through `DATABASE_URL` |
 | Photos | DigitalOcean Spaces through django-storages and boto3 |
 | Static files | WhiteNoise |
 | Hosting | Vercel |
@@ -79,14 +81,14 @@ Then open http://127.0.0.1:8000.
 
 ## Configuration
 
-Settings are read from `.env` locally and from environment variables in production (see [`.env.example`](.env.example)).
+On your computer, the settings come from `.env`. In production, they come from environment variables (see [`.env.example`](.env.example)).
 
 | Variable | What it is |
 |---|---|
 | `SECRET_KEY` | Django secret key |
-| `DEBUG` | `True` for local development. Leave it unset in production |
-| `DATABASE_URL` | `sqlite:///db.sqlite3` locally, a PostgreSQL URL in production |
-| `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | DigitalOcean Spaces keys for photos. Required at startup |
+| `DEBUG` | `True` for local development. Do not set it in production |
+| `DATABASE_URL` | `sqlite:///db.sqlite3` on your computer, a PostgreSQL URL in production |
+| `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | DigitalOcean Spaces keys for photos. The site needs them to start |
 | `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | Gmail address and app password for the contact form |
 
 ## Tests
@@ -95,11 +97,11 @@ Settings are read from `.env` locally and from environment variables in producti
 python manage.py test
 ```
 
-Tests use the database from `DATABASE_URL`, so keep it on SQLite locally. Uploaded files are kept in memory and never reach Spaces.
+Tests use the database from `DATABASE_URL`, so keep it on SQLite on your computer. Uploaded files stay in memory and are never sent to Spaces.
 
 ## Deploy
 
-The site runs on Vercel ([`vercel.json`](vercel.json)). In **Project → Settings → Environment Variables** add every variable from the table above except `DEBUG`. A new domain also has to be added to `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` in [`config/settings.py`](config/settings.py).
+The site runs on Vercel ([`vercel.json`](vercel.json)). In **Project → Settings → Environment Variables** add every variable from the table above, except `DEBUG`. If you add a new domain, also add it to `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS` in [`config/settings.py`](config/settings.py).
 
 ## Project structure
 
@@ -117,7 +119,7 @@ rentui.kg/
 
 <p align="center">
   <img src="images/readme/logo.png" width="72" alt="Rent Ui logo"><br><br>
-  Built in Kyrgyzstan by the <b>Fidea</b> team
+  Made in Kyrgyzstan by the <b>Fidea</b> team
 </p>
 
 <p align="center">
