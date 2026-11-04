@@ -48,7 +48,3 @@ def about(request):
 
 def services(request):
     return render(request, 'main/services.html')
-
-
-def property_detail(request):
-    return render(request, 'main/property_det.html')
