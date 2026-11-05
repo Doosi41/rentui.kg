@@ -13,7 +13,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # Включается только явно: DEBUG=True в .env. На проде переменной нет — значит False
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = ['rentui.it.com', 'www.rentui.it.com', 'rentui.vercel.app', 'localhost', '127.0.0.1']
+# '.vercel.app' — чтобы открывались и технические ссылки деплоев (rentui-xxxx.vercel.app),
+# а не только основной домен. Иначе Django отвечает на них 400 Bad Request
+ALLOWED_HOSTS = ['rentui.it.com', 'www.rentui.it.com', '.vercel.app', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://rentui.it.com', 'https://www.rentui.it.com', 'https://rentui.vercel.app']
 
 # Vercel принимает https и передаёт запрос дальше через прокси,
